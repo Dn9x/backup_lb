@@ -32,6 +32,7 @@ fs.watch('bak', function (event, filename) {
 	if(event == 'change'){
 		if (filename) {
 		    console.log('filename provided: ' + filename);
+		    upload();
 		} else {
 		    console.log('filename not provided');
 		}
@@ -40,6 +41,8 @@ fs.watch('bak', function (event, filename) {
 });
 
 function upload(){
+	
+	var date = new Date();
 	var time = date.getFullYear() + "-" + (date.getMonth()+1) + "-"  + date.getDate() + " "
 		+ date.getHours() + ":"  + date.getMinutes(); 
 
@@ -52,10 +55,14 @@ function upload(){
 			    	console.log('git commit 出错，错误信息：' + error);
 			    }else{
 			    	process.exec('git push -u origin master', function (error, stdout, stderr) {
-					    if (error !== null) {
-					    	console.log('git commit 出错，错误信息：' + error);
-					    }else{
-					    	
+					    if (stdout !== null) {
+					    	console.log(stdout);
+
+					    	process.exec('xiuxu123@live.cn', function (error, stdout, stderr) {
+							    if (stdout !== null) {
+							    	console.log(stdout);
+							    }
+							});
 					    }
 					});
 			    }

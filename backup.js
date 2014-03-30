@@ -20,7 +20,7 @@ function back(){
 	});
 
 
-    setTimeout(back, 1000*60*5);
+    setTimeout(back, 1000*60*60);
 }
 
 setTimeout(back, 1000*10);

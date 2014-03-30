@@ -62,16 +62,16 @@ function upload(){
 			    	console.log('git commit 出错，错误信息：' + error);
 			    }else{
 			    		console.log("git push1");
-			    	process.exec('dir', function (error, stdout, stderr) {
+			    	process.exec('git push -u origin master', function (error, stdout, stderr) {
 			    		console.log("git push2");
 
-					    if (stdout !== null) {
+					    if (stdout != null) {
 					    	console.log(stdout);
 
 					    	process.exec('xiuxu123@live.cn', function (error, stdout, stderr) {
 					    		console.log("git mail");
 
-							    if (stdout !== null) {
+							    if (stdout != null) {
 							    	console.log(stdout);
 							    }
 							});

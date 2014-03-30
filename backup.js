@@ -41,24 +41,35 @@ fs.watch('bak', function (event, filename) {
 });
 
 function upload(){
-	
+
 	var date = new Date();
 	var time = date.getFullYear() + "-" + (date.getMonth()+1) + "-"  + date.getDate() + " "
 		+ date.getHours() + ":"  + date.getMinutes(); 
 
 	process.exec('git add *', function (error, stdout, stderr) {
+
+
+		console.log("git add");
+
+
 	    if (error !== null) {
 	    	console.log('git add * 出错，错误信息：' + error);
 	    }else{
 	    	process.exec('git commit -m "'+time+'"', function (error, stdout, stderr) {
+	    		console.log("git commit");
+
 			    if (error !== null) {
 			    	console.log('git commit 出错，错误信息：' + error);
 			    }else{
 			    	process.exec('git push -u origin master', function (error, stdout, stderr) {
+			    		console.log("git push");
+
 					    if (stdout !== null) {
 					    	console.log(stdout);
 
 					    	process.exec('xiuxu123@live.cn', function (error, stdout, stderr) {
+					    		console.log("git mail");
+
 							    if (stdout !== null) {
 							    	console.log(stdout);
 							    }

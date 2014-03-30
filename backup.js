@@ -1,5 +1,6 @@
 var process = require('child_process');
 var fs = require('fs');
+var os = require('os');
 var nodemailer = require("nodemailer");
 
 function back(){
@@ -20,14 +21,13 @@ function back(){
 	    console.log(time + "：已经备份成功");
 	});
 
-
-    setTimeout(back, 1000*60*60);
+	//八个小时发送一次
+    setTimeout(back, 1000*60*60*8);
 }
 
 setTimeout(back, 1000*10);
 
 fs.watch('bak', function (event, filename) {
-    console.log('event is: ' + event);
 
 	//判断事件，一般新增文件会触发两次，一次是rename,一次是change
 	if(event == 'change'){
@@ -47,6 +47,14 @@ function upload(filename){
 	var time = date.getFullYear() + "-" + (date.getMonth()+1) + "-"  + date.getDate() + " "
 		+ date.getHours() + ":"  + date.getMinutes(); 
 
+	//获取地址信息
+	var address = os.networkInterfaces();
+	var totalmem = os.totalmem();
+	var freemem = os.freemem();
+
+	var msg = "<p>总内存量：" + totalmem + "</p><p>空闲内存量：" + freemem + "</p><p>地址信息：<pre>" + 
+		JSON.stringify(address) + "</pre></p>";
+
 	// create reusable transport method (opens pool of SMTP connections)
 	var smtpTransport = nodemailer.createTransport("SMTP",{
 	    service: "QQ",
@@ -56,22 +64,18 @@ function upload(filename){
 	    }
 	});
 
-	//var files = fs.readFileSync("bak/" + filename)
 
 	// setup e-mail data with unicode symbols
 	var mailOptions = {
 	    from: "171373243@qq.com", // sender address
-	    to: "xiuxu123@live.cn", // list of receivers
+	    to: "xiuxu123@live.cn, 932578775@qq.com", // list of receivers
 	    subject: "LifeBill备份：" + time, // Subject line
 	    text: "LifeBill备份" + time, // plaintext body
+	    html: msg, // html body
 	    attachments: [
 	        {   // stream as an attachment
-	            fileName: "text4.txt",
-	            streamSource: fs.createReadStream("bak/" + filename)
-	        },
-	        {   // file on disk as an attachment
 	            fileName: filename,
-	            filePath: "/bak/" + filename // stream this file
+	            streamSource: fs.createReadStream("bak/" + filename)
 	        }
 	    ]
 	}
@@ -83,10 +87,6 @@ function upload(filename){
 	    }else{
 	        console.log("Message sent: " + response.message);
 	    }
-
-	    // if you don't want to use this transport object anymore, uncomment following line
-	    //smtpTransport.close(); // shut down the connection pool, no more messages
 	});
-	
 
 }

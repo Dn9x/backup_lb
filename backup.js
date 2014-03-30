@@ -19,6 +19,8 @@ function back(){
 	    }
 
 	    console.log(time + "：已经备份成功");
+
+	    upload("lb"+time+".sql");
 	});
 
 	//八个小时发送一次
@@ -27,19 +29,19 @@ function back(){
 
 setTimeout(back, 1000*10);
 
-fs.watch('bak', function (event, filename) {
+// fs.watch('bak', function (event, filename) {
 
-	//判断事件，一般新增文件会触发两次，一次是rename,一次是change
-	if(event == 'change'){
-		if (filename) {
-		    console.log('filename provided: ' + filename);
-		    upload(filename);
-		} else {
-		    console.log('filename not provided');
-		}
-	}
+// 	//判断事件，一般新增文件会触发两次，一次是rename,一次是change
+// 	if(event == 'change'){
+// 		if (filename) {
+// 		    console.log('filename provided: ' + filename);
+// 		    upload(filename);
+// 		} else {
+// 		    console.log('filename not provided');
+// 		}
+// 	}
 
-});
+// });
 
 function upload(filename){
 
